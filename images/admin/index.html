@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panel Admin - PixelForge AI</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="style-admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body class="admin-body">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <a href="../index.html" class="logo">PIXEL<span>FORGE</span></a>
+    <p>Panel Admin</p>
+  </div>
+  <nav class="sidebar-nav">
+    <a href="#" class="nav-item active" onclick="showSection('dashboard', this)">
+      <i class="fas fa-tachometer-alt"></i> Dasbor
+    </a>
+    <a href="#" class="nav-item" onclick="showSection('pengguna', this)">
+      <i class="fas fa-users"></i> Pengguna
+    </a>
+    <a href="#" class="nav-item" onclick="showSection('gambar', this)">
+      <i class="fas fa-images"></i> Gambar
+    </a>
+    <a href="#" class="nav-item" onclick="showSection('pengaturan', this)">
+      <i class="fas fa-cog"></i> Pengaturan
+    </a>
+    <a href="../index.html" class="nav-item">
+      <i class="fas fa-home"></i> Ke Beranda
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="btn-logout-admin" onclick="logoutAdmin()">
+      <i class="fas fa-sign-out-alt"></i> Keluar
+    </button>
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="admin-main">
+  <!-- TOP BAR -->
+  <header class="admin-topbar">
+    <button class="sidebar-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <h1 id="pageTitle">Dasbor</h1>
+    <div class="topbar-right">
+      <span id="adminName" class="admin-name"><i class="fas fa-user-shield"></i> Admin</span>
+      <span class="admin-badge">ADMIN</span>
+    </div>
+  </header>
+
+  <!-- DASHBOARD SECTION -->
+  <section id="section-dashboard" class="admin-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-icon"><i class="fas fa-users"></i></div>
+        <div class="stat-info">
+          <h3>Total Pengguna</h3>
+          <p class="stat-num">1.248</p>
+          <span class="stat-change up"><i class="fas fa-arrow-up"></i> 12% bulan ini</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon accent2"><i class="fas fa-images"></i></div>
+        <div class="stat-info">
+          <h3>Gambar Dibuat</h3>
+          <p class="stat-num">50.283</p>
+          <span class="stat-change up"><i class="fas fa-arrow-up"></i> 8% bulan ini</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon green"><i class="fas fa-money-bill-wave"></i></div>
+        <div class="stat-info">
+          <h3>Pendapatan Bulan Ini</h3>
+          <p class="stat-num">Rp 18,4 Juta</p>
+          <span class="stat-change up"><i class="fas fa-arrow-up"></i> 5% bulan ini</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon red"><i class="fas fa-exclamation-triangle"></i></div>
+        <div class="stat-info">
+          <h3>Laporan Masuk</h3>
+          <p class="stat-num">7</p>
+          <span class="stat-change down"><i class="fas fa-arrow-down"></i> 3 terselesaikan</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-tables">
+      <div class="admin-card">
+        <h3><i class="fas fa-clock"></i> Aktivitas Terbaru</h3>
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Pengguna</th>
+              <th>Aksi</th>
+              <th>Waktu</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>heri</td><td>Generate gambar anime</td><td>2 menit lalu</td><td><span class="badge success">Sukses</span></td></tr>
+            <tr><td>user123</td><td>Daftar akun baru</td><td>15 menit lalu</td><td><span class="badge success">Sukses</span></td></tr>
+            <tr><td>kreator99</td><td>Upgrade ke paket Kreator</td><td>1 jam lalu</td><td><span class="badge success">Sukses</span></td></tr>
+            <tr><td>designer_pro</td><td>Generate gambar lanskap</td><td>2 jam lalu</td><td><span class="badge warning">Antrian</span></td></tr>
+            <tr><td>artlover</td><td>Login gagal (3x)</td><td>3 jam lalu</td><td><span class="badge danger">Gagal</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- PENGGUNA SECTION -->
+  <section id="section-pengguna" class="admin-section" style="display:none;">
+    <div class="admin-card">
+      <div class="section-header">
+        <h3><i class="fas fa-users"></i> Daftar Pengguna</h3>
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Cari pengguna..." onkeyup="searchTable(this, 'userTable')" />
+        </div>
+      </div>
+      <table class="data-table" id="userTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>Paket</th>
+            <th>Status</th>
+            <th>Aksi</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>1</td><td>heri</td><td>heri@email.com</td><td>Kreator</td><td><span class="badge success">Aktif</span></td><td><button class="btn-tbl edit">Edit</button> <button class="btn-tbl del">Hapus</button></td></tr>
+          <tr><td>2</td><td>user123</td><td>user123@email.com</td><td>Pemula</td><td><span class="badge success">Aktif</span></td><td><button class="btn-tbl edit">Edit</button> <button class="btn-tbl del">Hapus</button></td></tr>
+          <tr><td>3</td><td>kreator99</td><td>kreator@email.com</td><td>Kreator</td><td><span class="badge success">Aktif</span></td><td><button class="btn-tbl edit">Edit</button> <button class="btn-tbl del">Hapus</button></td></tr>
+          <tr><td>4</td><td>designer_pro</td><td>designer@email.com</td><td>Enterprise</td><td><span class="badge warning">Pending</span></td><td><button class="btn-tbl edit">Edit</button> <button class="btn-tbl del">Hapus</button></td></tr>
+          <tr><td>5</td><td>artlover</td><td>art@email.com</td><td>Pemula</td><td><span class="badge danger">Diblokir</span></td><td><button class="btn-tbl edit">Edit</button> <button class="btn-tbl del">Hapus</button></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- GAMBAR SECTION -->
+  <section id="section-gambar" class="admin-section" style="display:none;">
+    <div class="admin-card">
+      <h3><i class="fas fa-images"></i> Galeri Gambar yang Dibuat</h3>
+      <div class="img-admin-grid">
+        <div class="img-admin-item">
+          <img src="../images/tm-pixel-forge-01.jpg" alt="" />
+          <div class="img-info">
+            <p>oleh heri</p>
+            <span>Fotorealistik</span>
+          </div>
+        </div>
+        <div class="img-admin-item">
+          <img src="../images/tm-pixel-forge-02.jpg" alt="" />
+          <div class="img-info">
+            <p>oleh user123</p>
+            <span>Seni Digital</span>
+          </div>
+        </div>
+        <div class="img-admin-item">
+          <img src="../images/tm-pixel-forge-03.jpg" alt="" />
+          <div class="img-info">
+            <p>oleh kreator99</p>
+            <span>Render 3D</span>
+          </div>
+        </div>
+        <div class="img-admin-item">
+          <img src="../images/tm-pixel-forge-04.jpg" alt="" />
+          <div class="img-info">
+            <p>oleh artlover</p>
+            <span>Anime</span>
+          </div>
+        </div>
+        <div class="img-admin-item">
+          <img src="../images/tm-pixel-forge-05.jpg" alt="" />
+          <div class="img-info">
+            <p>oleh designer_pro</p>
+            <span>Seni Sci-Fi</span>
+          </div>
+        </div>
+        <div class="img-admin-item">
+          <img src="../images/tm-pixel-forge-06.jpg" alt="" />
+          <div class="img-info">
+            <p>oleh heri</p>
+            <span>Retro Futurisme</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PENGATURAN SECTION -->
+  <section id="section-pengaturan" class="admin-section" style="display:none;">
+    <div class="admin-card">
+      <h3><i class="fas fa-cog"></i> Pengaturan Sistem</h3>
+      <div class="settings-grid">
+        <div class="setting-item">
+          <label>Nama Aplikasi</label>
+          <input type="text" value="PixelForge AI" class="setting-input" />
+        </div>
+        <div class="setting-item">
+          <label>Batas Generate Harian (Paket Pemula)</label>
+          <input type="number" value="50" class="setting-input" />
+        </div>
+        <div class="setting-item">
+          <label>Batas Generate Harian (Paket Kreator)</label>
+          <input type="number" value="500" class="setting-input" />
+        </div>
+        <div class="setting-item">
+          <label>Mode Pemeliharaan</label>
+          <select class="setting-input">
+            <option>Nonaktif</option>
+            <option>Aktif</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn-primary" style="margin-top:24px;" onclick="alert('Pengaturan disimpan!')">Simpan Perubahan</button>
+    </div>
+  </section>
+</main>
+
+<script>
+  // Cek apakah admin
+  document.addEventListener('DOMContentLoaded', function () {
+    var user = sessionStorage.getItem('loggedUser');
+    var role = sessionStorage.getItem('loggedRole');
+    if (!user) {
+      alert('Anda harus masuk terlebih dahulu!');
+      window.location.href = '../login/index.html';
+      return;
+    }
+    document.getElementById('adminName').innerHTML = '<i class="fas fa-user-shield"></i> ' + user;
+  });
+
+  function showSection(name, el) {
+    // Sembunyikan semua section
+    document.querySelectorAll('.admin-section').forEach(function (s) {
+      s.style.display = 'none';
+    });
+    // Hapus active dari semua nav
+    document.querySelectorAll('.nav-item').forEach(function (n) {
+      n.classList.remove('active');
+    });
+    // Tampilkan section yang dipilih
+    var target = document.getElementById('section-' + name);
+    if (target) target.style.display = 'block';
+    if (el) el.classList.add('active');
+    // Update judul
+    var titles = { dashboard: 'Dasbor', pengguna: 'Manajemen Pengguna', gambar: 'Galeri Gambar', pengaturan: 'Pengaturan Sistem' };
+    document.getElementById('pageTitle').textContent = titles[name] || name;
+    return false;
+  }
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('closed');
+  }
+
+  function searchTable(input, tableId) {
+    var filter = input.value.toLowerCase();
+    var rows = document.getElementById(tableId).querySelectorAll('tbody tr');
+    rows.forEach(function (row) {
+      var text = row.textContent.toLowerCase();
+      row.style.display = text.includes(filter) ? '' : 'none';
+    });
+  }
+
+  function logoutAdmin() {
+    sessionStorage.removeItem('loggedUser');
+    sessionStorage.removeItem('loggedToken');
+    sessionStorage.removeItem('loggedRole');
+    alert('Anda telah keluar dari panel admin.');
+    window.location.href = '../index.html';
+  }
+</script>
+</body>
+</html>

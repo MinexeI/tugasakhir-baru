@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PixelForge AI - Buat Gambar Menakjubkan dari Teks</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar" id="navbar">
+  <div class="container nav-container">
+    <a href="index.html" class="logo">PIXELFORGE <span>AI</span></a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#galeri">Galeri</a>
+      <a href="#fitur">Fitur</a>
+      <a href="#harga">Harga</a>
+      <a href="#faq">FAQ</a>
+      <a href="#video">Video</a>
+      <a href="#lokasi">Lokasi</a>
+    </nav>
+    <div class="nav-auth">
+      <span id="welcomeUser" style="display:none; color:#00d4ff; margin-right:10px;"></span>
+      <a href="login/index.html" class="btn-login" id="btnLogin">Masuk</a>
+      <button class="btn-logout" id="btnLogout" onclick="logout()" style="display:none;">Keluar</button>
+    </div>
+    <button class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="container hero-content">
+    <div class="hero-badge">Kini dengan Model FLUX &amp; SDXL</div>
+    <h1>UBAH KATA-KATA<br>MENJADI KARYA SENI<br><span class="highlight">dalam hitungan detik</span></h1>
+    <p class="hero-sub">Hasilkan gambar beresolusi tinggi yang menakjubkan dari teks sederhana. Tidak perlu keahlian desain — cukup deskripsikan imajinasi Anda.</p>
+    <div class="hero-stats">
+      <div class="stat"><strong>50 Juta+</strong><span>Gambar Dibuat</span></div>
+      <div class="stat"><strong>2,5 Detik</strong><span>Rata-rata Generate</span></div>
+      <div class="stat"><strong>4K</strong><span>Resolusi Maks</span></div>
+      <div class="stat"><strong>10x Lebih Cepat</strong><span>100+ Gaya</span></div>
+    </div>
+    <div class="hero-actions">
+      <a href="login/index.html" class="btn-primary">Mulai Gratis</a>
+      <a href="#galeri" class="btn-secondary">Lihat Galeri</a>
+    </div>
+  </div>
+  <div class="hero-particles"></div>
+</section>
+
+<!-- GENERATOR TOOL -->
+<section class="generator" id="generator">
+  <div class="container">
+    <h2 class="section-title">Generator Gambar AI</h2>
+    <div class="gen-card">
+      <div class="gen-left">
+        <label>Prompt Anda</label>
+        <textarea id="promptInput" placeholder="Deskripsikan gambar yang ingin Anda buat..."></textarea>
+        <label>Gaya</label>
+        <select id="styleSelect">
+          <option>Fotorealistik</option>
+          <option>Seni Digital</option>
+          <option>Anime</option>
+          <option>Lukisan Cat Minyak</option>
+          <option>Render 3D</option>
+          <option>Cat Air</option>
+        </select>
+        <label>Rasio Aspek</label>
+        <div class="ratio-btns">
+          <button class="ratio-btn active" onclick="setRatio(this)">1:1</button>
+          <button class="ratio-btn" onclick="setRatio(this)">16:9</button>
+          <button class="ratio-btn" onclick="setRatio(this)">9:16</button>
+        </div>
+        <button class="btn-primary btn-generate" onclick="generateImage()">Generate Gambar</button>
+      </div>
+      <div class="gen-right">
+        <div class="gen-preview" id="genPreview">
+          <i class="fas fa-image"></i>
+          <p>Hasil gambar Anda akan muncul di sini</p>
+        </div>
+        <div class="gen-actions" id="genActions" style="display:none;">
+          <button><i class="fas fa-download"></i> Unduh</button>
+          <button><i class="fas fa-edit"></i> Edit</button>
+          <button><i class="fas fa-share"></i> Bagikan</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALERI -->
+<section class="gallery" id="galeri">
+  <div class="container">
+    <h2 class="section-title">GALERI KOMUNITAS</h2>
+    <p class="section-sub">Jelajahi apa yang dibuat oleh para kreator dengan PixelForge.</p>
+    <div class="gallery-filter">
+      <button class="filter-btn active" onclick="filterGallery(this,'semua')">Semua</button>
+      <button class="filter-btn" onclick="filterGallery(this,'potret')">Potret</button>
+      <button class="filter-btn" onclick="filterGallery(this,'lanskap')">Lanskap</button>
+      <button class="filter-btn" onclick="filterGallery(this,'abstrak')">Abstrak</button>
+      <button class="filter-btn" onclick="filterGallery(this,'anime')">Anime</button>
+    </div>
+    <div class="gallery-grid">
+      <div class="gallery-item" data-cat="lanskap">
+        <img src="images/tm-pixel-forge-01.jpg" alt="Kota Cyberpunk" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p>Kota cyberpunk di saat golden hour</p>
+          <span>Fotorealistik</span>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="potret">
+        <img src="images/tm-pixel-forge-02.jpg" alt="Potret Abstrak" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p>Potret eteri larut dalam bentuk geometris</p>
+          <span>Seni Digital</span>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="abstrak">
+        <img src="images/tm-pixel-forge-03.jpg" alt="Seni Abstrak" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p>Logam cair mengalir di gravitasi nol</p>
+          <span>Render 3D</span>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="anime">
+        <img src="images/tm-pixel-forge-04.jpg" alt="Gaya Anime" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p>Pejuang anime di badai bunga sakura</p>
+          <span>Anime</span>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="lanskap">
+        <img src="images/tm-pixel-forge-05.jpg" alt="Lanskap Luar Angkasa" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p>Permukaan planet asing dengan dua matahari</p>
+          <span>Seni Sci-Fi</span>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="potret">
+        <img src="images/tm-pixel-forge-06.jpg" alt="Potret Neon" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p>Potret bernuansa neon dengan efek glitch</p>
+          <span>Retro Futurisme</span>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="abstrak">
+        <img src="images/tm-pixel-forge-07.jpg" alt="Ledakan Warna" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p>Ledakan cat warna membeku dalam waktu</p>
+          <span>Fotorealistik</span>
+        </div>
+      </div>
+      <div class="gallery-item" data-cat="lanskap">
+        <img src="images/tm-pixel-forge-08.jpg" alt="Lanskap Gunung" loading="lazy"/>
+        <div class="gallery-overlay">
+          <p>Gunung melayang surealis dengan air terjun</p>
+          <span>Seni Fantasi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FITUR -->
+<section class="features" id="fitur">
+  <div class="container">
+    <h2 class="section-title">DIBANGUN BERBEDA</h2>
+    <p class="section-sub">Bukan sekadar alat AI biasa. Inilah keunggulan kami.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feat-num">01</div>
+        <h3>SUPER CEPAT</h3>
+        <p>Hasilkan gambar menakjubkan dalam 3 detik. Infrastruktur teroptimasi kami memastikan Anda tidak pernah menunggu inspirasi.</p>
+        <div class="feat-badge">Rata-rata 2,5 detik</div>
+      </div>
+      <div class="feature-card">
+        <div class="feat-num">02</div>
+        <h3>BERBAGAI RASIO</h3>
+        <p>Kotak, potret, lanskap, atau dimensi kustom. Sempurna untuk media sosial, cetak, atau proyek web.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-num">03</div>
+        <h3>BANYAK MODEL</h3>
+        <p>Akses SDXL, Flux, dan model eksklusif kami. Masing-masing dioptimalkan untuk gaya dan kasus penggunaan berbeda.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-num">04</div>
+        <h3>KONTROL LANJUTAN</h3>
+        <p>Sempurnakan dengan negative prompt, kontrol seed, skala panduan, dan lainnya. Kontrol kreatif penuh di tangan Anda.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feat-num">05</div>
+        <h3>AKSES API</h3>
+        <p>Integrasikan PixelForge ke dalam aplikasi Anda dengan REST API yang ramah pengembang.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARA KERJA -->
+<section class="how-it-works">
+  <div class="container">
+    <h2 class="section-title">CARA KERJA</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>DESKRIPSIKAN VISI ANDA</h3>
+        <p>Ketikkan deskripsi detail gambar yang ingin Anda buat. Semakin spesifik, semakin baik hasilnya.</p>
+      </div>
+      <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>PILIH GAYA ANDA</h3>
+        <p>Pilih dari fotorealistik, anime, seni digital, lukisan cat minyak, dan banyak gaya artistik lainnya.</p>
+      </div>
+      <div class="step-arrow"><i class="fas fa-arrow-right"></i></div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>GENERATE &amp; PERBAIKI</h3>
+        <p>Dapatkan gambar Anda dalam hitungan detik. Ulangi, perbesar, atau edit hingga benar-benar sesuai keinginan.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HARGA -->
+<section class="pricing" id="harga">
+  <div class="container">
+    <h2 class="section-title">HARGA SEDERHANA</h2>
+    <p class="section-sub">Mulai gratis. Berkembang sesuai kebutuhan Anda.</p>
+    <div class="pricing-toggle">
+      <span>Bulanan</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="pricingToggle" onchange="togglePricing()"/>
+        <span class="toggle-slider"></span>
+      </label>
+      <span>Tahunan <em class="save-badge">Hemat 35%</em></span>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>PEMULA</h3>
+        <p>Sempurna untuk mencoba</p>
+        <div class="price">Gratis</div>
+        <ul>
+          <li><i class="fas fa-check"></i> 50 gambar / bulan</li>
+          <li><i class="fas fa-check"></i> Resolusi standar (1024px)</li>
+          <li><i class="fas fa-check"></i> Gaya dasar</li>
+          <li><i class="fas fa-check"></i> Akses galeri komunitas</li>
+        </ul>
+        <a href="login/register.html" class="btn-primary">Mulai Sekarang</a>
+      </div>
+      <div class="price-card popular">
+        <div class="popular-badge">Paling Populer</div>
+        <h3>KREATOR</h3>
+        <p>Untuk pembuat konten serius</p>
+        <div class="price" id="creatorPrice">Rp 240.000 <span>/ bulan</span></div>
+        <ul>
+          <li><i class="fas fa-check"></i> 500 gambar / bulan</li>
+          <li><i class="fas fa-check"></i> Pembesaran resolusi 4K</li>
+          <li><i class="fas fa-check"></i> Semua gaya &amp; model</li>
+          <li><i class="fas fa-check"></i> Negative prompt</li>
+          <li><i class="fas fa-check"></i> Prioritas generate</li>
+        </ul>
+        <a href="login/register.html" class="btn-primary">Coba Gratis</a>
+      </div>
+      <div class="price-card">
+        <h3>ENTERPRISE</h3>
+        <p>Untuk tim dan bisnis</p>
+        <div class="price" id="enterprisePrice">Rp 1.340.000 <span>/ bulan</span></div>
+        <ul>
+          <li><i class="fas fa-check"></i> Gambar tidak terbatas</li>
+          <li><i class="fas fa-check"></i> Akses API</li>
+          <li><i class="fas fa-check"></i> Pelatihan model kustom</li>
+          <li><i class="fas fa-check"></i> Dukungan khusus</li>
+          <li><i class="fas fa-check"></i> Lisensi komersial</li>
+        </ul>
+        <a href="login/index.html" class="btn-secondary">Hubungi Kami</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO YOUTUBE -->
+<section class="video-section" id="video">
+  <div class="container">
+    <h2 class="section-title">VIDEO TUTORIAL</h2>
+    <p class="section-sub">Pelajari cara membuat gambar AI yang menakjubkan dengan PixelForge.</p>
+    <div class="video-wrapper">
+      <iframe width="972" height="547"
+        src="https://www.youtube.com/embed/WkEpw5r_SjQ"
+        title="Tutorial PixelForge AI"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        referrerpolicy="strict-origin-when-cross-origin"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- GOOGLE MAPS LOKASI -->
+<section class="maps-section" id="lokasi">
+  <div class="container">
+    <h2 class="section-title">LOKASI KAMI</h2>
+    <p class="section-sub">Kunjungi kami di kantor pusat PixelForge.</p>
+    <div class="maps-wrapper">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3952.899581696843!2d110.3928100740499!3d-7.800455306955081!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a57669d43fe55%3A0x75fae1bb400d4da5!2sSMA%20Negeri%208%20Yogyakarta!5e0!3m2!1sen!2sid!4v1778126595811!5m2!1sen!2sid"
+        width="100%" height="450"
+        style="border:0; border-radius:12px;"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="container">
+    <h2 class="section-title">PERTANYAAN &amp; JAWABAN</h2>
+    <div class="faq-list">
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Model AI apa yang mendukung PixelForge? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Kami menggunakan kombinasi model mutakhir termasuk Stable Diffusion XL, Flux, dan model fine-tuned eksklusif kami. Masing-masing dioptimalkan untuk gaya dan kasus penggunaan yang berbeda.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Bisakah saya menggunakan gambar yang dihasilkan untuk keperluan komersial? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Ya! Semua paket berbayar mencakup hak komersial penuh untuk gambar yang Anda hasilkan. Anda dapat menggunakannya untuk website, pemasaran, produk, dan lainnya tanpa atribusi.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Bagaimana cara kerja sistem kredit? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Setiap generate gambar menggunakan satu kredit. Gambar resolusi standar menggunakan 1 kredit, sedangkan pembesaran 4K menggunakan 2 kredit. Kredit yang tidak digunakan dapat dibawa hingga 3 bulan.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Apakah ada API untuk pengembang? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Ya, REST API kami tersedia di paket Enterprise. Dokumentasi lengkap, SDK untuk Python dan JavaScript, serta dukungan webhook sudah termasuk.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-q">Apa kebijakan pengembalian dana Anda? <i class="fas fa-chevron-down"></i></div>
+        <div class="faq-a">Kami menawarkan jaminan uang kembali 7 hari untuk semua paket berbayar. Jika Anda tidak puas, hubungi dukungan untuk pengembalian dana penuh tanpa pertanyaan.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2>GAMBAR BERIKUTNYA <span class="highlight">hanya satu prompt</span> dari Anda</h2>
+    <p>Bergabunglah dengan ribuan kreator, pemasar, dan pengembang yang menggunakan PixelForge untuk mewujudkan ide mereka.</p>
+    <div class="cta-actions">
+      <a href="login/register.html" class="btn-primary">Mulai Gratis</a>
+      <a href="#harga" class="btn-secondary">Lihat Harga</a>
+    </div>
+    <div class="cta-preview">
+      <p class="cta-prompt">Taman Jepang yang tenang di senja hari, lentera batu kuno bercahaya lembut, kolam koi memantulkan bunga sakura, pegunungan berkabut di latar belakang</p>
+      <div class="cta-arrow">↓</div>
+      <img src="images/tm-pixel-forge-09.jpg" alt="Taman Jepang AI" />
+      <p class="gen-time">Dibuat dalam 2,3 detik</p>
+      <div class="user-badges">
+        <span>A</span><span>M</span><span>J</span><span>+</span>
+        <p>2.847 orang sedang membuat sekarang</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand">
+      <a href="index.html" class="logo">PIXELFORGE <span>AI</span></a>
+      <p>Ubah imajinasi Anda menjadi visual menakjubkan dengan kekuatan AI.</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-youtube"></i></a>
+        <a href="#"><i class="fab fa-tiktok"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+      </div>
+    </div>
+    <div class="footer-links">
+      <h4>Tetap Terhubung</h4>
+      <p>Dapatkan fitur terbaru dan tips yang dikirim ke kotak masuk Anda.</p>
+      <div class="newsletter">
+        <input type="email" placeholder="Email Anda" />
+        <button>Langganan</button>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 PixelForge. Hak cipta dilindungi. Desain: <a href="https://templatemo.com">TemplateMo</a></p>
+    <div>
+      <a href="#">Kebijakan Privasi</a>
+      <a href="#">Syarat Layanan</a>
+      <a href="#">Kebijakan Cookie</a>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  // Cek status login dari sessionStorage
+  window.addEventListener('DOMContentLoaded', function () {
+    var user = sessionStorage.getItem('loggedUser');
+    if (user) {
+      document.getElementById('welcomeUser').style.display = 'inline';
+      document.getElementById('welcomeUser').textContent = 'Halo, ' + user + '!';
+      document.getElementById('btnLogin').style.display = 'none';
+      document.getElementById('btnLogout').style.display = 'inline-block';
+    }
+  });
+
+  function logout() {
+    sessionStorage.removeItem('loggedUser');
+    sessionStorage.removeItem('loggedToken');
+    alert('Anda telah berhasil keluar.');
+    window.location.reload();
+  }
+</script>
+</body>
+</html>
